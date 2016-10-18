@@ -1,0 +1,61 @@
+{
+    "name": "vscode-add-angular2-renovo-files",
+    "displayName": "Add Angular2 Renovo Component",
+    "description": "Add Angular2 files including ng2 snippets to your Visual Studio Code project",
+    "version": "1.0.1",
+    "icon": "images/icon.png",
+    "publisher": "joshdsommer",
+    "author": {
+        "name": "Josh Sommer"
+    },
+    "engines": {
+        "vscode": "^1.4.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/sebastianbaar/vscode-add-angular2-files"
+    },
+    "bugs": {
+        "url": "https://github.com/sebastianbaar/vscode-add-angular2-files/issues"
+    },
+    "categories": [
+        "Other",
+        "Languages",
+        "Snippets"
+    ],
+    "scripts": {
+        "prepublish": "node ./node_modules/vscode/bin/compile",
+        "compile": "node ./node_modules/vscode/bin/compile -watch -p ./",
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "publish": "npm run vscode:prepublish &&  vsce package"
+    },
+    "activationEvents": [
+        "*"
+    ],
+    "main": "./out/src/extension",
+    "contributes": {
+        "commands": [
+            {
+                "command": "extension.addAngular2RenovoComponent",
+                "title": "Add Angular2 Renovo Component"
+            }
+        ],
+        "menus": {
+            "explorer/context": [
+                {
+                    "when": "",
+                    "command": "extension.addAngular2RenovoComponent",
+                    "group": "Add Files"
+                }
+            ]
+        }
+    },
+    "devDependencies": {
+        "typescript": "^1.8.5",
+        "rimraf": "^2.4.4",
+        "vscode": "^0.11.0"
+    },
+    "dependencies": {
+        "q": "^1.4.1"
+    }
+}
