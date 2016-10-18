@@ -1,9 +1,17 @@
 export class FileContents {
 
-    private camelCase (input: string): string {
-        return input.replace( /-([a-z])/ig, function( all, letter ) {
+    private camelCase(input: string): string {
+        return input.replace(/-([a-z])/ig, function (all, letter) {
             return letter.toUpperCase();
         });
+    }
+
+    public createBarrel(inputName: string): string {
+        var inputUpperCase: string;
+        inputUpperCase = inputName.charAt(0).toUpperCase() + inputName.slice(1);
+        inputUpperCase = this.camelCase(inputUpperCase);
+
+        return `export { ${inputUpperCase}Component } from './${inputName}.component';`
     }
 
     public componentContent(inputName: string): string {
@@ -48,18 +56,18 @@ export class FileContents {
 
         var specContent: string = "import { " + inputUpperCase + "Component } from './" + inputName + ".component';\n" +
             "\n" +
-            "describe('a "+ inputName +" component', () => {\n" +
-                "\tlet " + inputName + "Component : " + inputUpperCase + "Component;\n" +
-                "\n" +
-                "\t// register all needed dependencies\n" +
-                "\tbeforeEach(() => {\n" +
-                    "\t\t" + inputName + "Component = new " + inputUpperCase +"Component();\n" +
-               "\t});\n" +
-                "\n" +
+            "describe('a " + inputName + " component', () => {\n" +
+            "\tlet " + inputName + "Component : " + inputUpperCase + "Component;\n" +
+            "\n" +
+            "\t// register all needed dependencies\n" +
+            "\tbeforeEach(() => {\n" +
+            "\t\t" + inputName + "Component = new " + inputUpperCase + "Component();\n" +
+            "\t});\n" +
+            "\n" +
 
-                "\tit('should have an instance', () => {\n" +
-                    "\t\texpect(" + inputName + "Component).to.not.be.null;\n" +
-                "\t});\n" +
+            "\tit('should have an instance', () => {\n" +
+            "\t\texpect(" + inputName + "Component).to.not.be.null;\n" +
+            "\t});\n" +
             "});";
         return specContent;
     }
