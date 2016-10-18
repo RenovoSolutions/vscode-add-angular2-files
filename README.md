@@ -27,6 +27,13 @@ home/home.component.tests.ts
 code --install-extension vscode-add-angular2-renovo-files-1.0.1.vsix
 ```
 
+## Work Flow
+Install vsce - Publishing Tool
+```
+npm install -g vsce
+```
+
+
 ## Build command
 ```
 npm run prepublish
