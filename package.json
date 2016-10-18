@@ -2,7 +2,7 @@
     "name": "vscode-add-angular2-renovo-files",
     "displayName": "Add Angular2 Renovo Component",
     "description": "Add Angular2 files including ng2 snippets to your Visual Studio Code project",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "icon": "images/icon.png",
     "publisher": "joshdsommer",
     "author": {
@@ -27,7 +27,8 @@
         "prepublish": "node ./node_modules/vscode/bin/compile",
         "compile": "node ./node_modules/vscode/bin/compile -watch -p ./",
         "postinstall": "node ./node_modules/vscode/bin/install",
-        "publish": "npm run prepublish &&  vsce package"
+        "publish": "npm run prepublish &&  vsce package ",
+        "publish.install": "npm run publish && code --install-extension vscode-add-angular2-renovo-files-1.0.2.vsix && echo 'If install failed Make sure to check that your install file version to match the package.json'"
     },
     "activationEvents": [
         "*"
