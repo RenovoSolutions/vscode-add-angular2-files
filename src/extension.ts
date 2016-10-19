@@ -4,12 +4,12 @@ import { AddFiles } from './add-files';
 export function activate(context: ExtensionContext) {
   console.log('Congratulations, your extension is now active!');
 
-  var addAngular2Files = commands.registerCommand('extension.addAngular2RenovoComponent', (args) => {
+  var addAngular2FilesComponent = commands.registerCommand('extension.addAngular2RenovoComponent', (args) => {
     const addFiles: AddFiles = new AddFiles();
     addFiles.showFileNameDialog(args)
       .then(addFiles.createFolder)
       .then(addFiles.createComponentFiles)
-      .then(addFiles.openFileInEditor)
+      .then(addFiles.openComponentFileInEditor)
       .catch((err) => {
         if (err) {
           window.showErrorMessage(err);
@@ -17,12 +17,12 @@ export function activate(context: ExtensionContext) {
       });
   });
 
-  var addAngular2Files = commands.registerCommand('extension.addAngular2RenovoService', (args) => {
+  var addAngular2FilesService = commands.registerCommand('extension.addAngular2RenovoService', (args) => {
     const addFiles: AddFiles = new AddFiles();
     addFiles.showFileNameDialog(args)
       .then(addFiles.createFolder)
       .then(addFiles.createServiceFiles)
-      .then(addFiles.openFileInEditor)
+      .then(addFiles.openServiceFileInEditor)
       .catch((err) => {
         if (err) {
           window.showErrorMessage(err);
@@ -30,5 +30,6 @@ export function activate(context: ExtensionContext) {
       });
   });
 
-  context.subscriptions.push(addAngular2Files);
+  context.subscriptions.push(addAngular2FilesComponent);
+  context.subscriptions.push(addAngular2FilesService);
 }

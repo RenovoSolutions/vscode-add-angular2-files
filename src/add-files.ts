@@ -72,7 +72,7 @@ export class AddFiles {
     return this.createFiles(folderName, FileScaffoldType.component);
   }
 
-  public createServiceFiles(folderName: string){
+  public createServiceFiles(folderName: string): Q.Promise<string>{
     return this.createFiles(folderName, FileScaffoldType.service);
   }
 
@@ -143,11 +143,24 @@ export class AddFiles {
     return deferred.promise;
   }
 
-  // Open the created component in the editor
-  public openFileInEditor(folderName): Q.Promise<TextEditor> {
+  // Open the created component in the 
+    public openComponentFileInEditor(folderName: string): Q.Promise<TextEditor>{
+    return this.openFileInEditor(folderName, FileScaffoldType.component);
+  }
+
+  public openServiceFileInEditor(folderName: string): Q.Promise<TextEditor>{
+    return this.openFileInEditor(folderName, FileScaffoldType.service);
+  }
+
+  private openFileInEditor(folderName:string, fileScaffoldType: FileScaffoldType): Q.Promise<TextEditor> {
     const deferred: Q.Deferred<TextEditor> = Q.defer<TextEditor>();
-    var inputName: string = path.parse(folderName).name;;
-    var fullFilePath: string = path.join(folderName, `${inputName}.component.ts`);
+    var inputName: string = path.parse(folderName).name;
+    var scaffoldName = "component";
+
+    if(fileScaffoldType == FileScaffoldType.service)
+      scaffoldName = "service";
+
+    var fullFilePath: string = path.join(folderName, `${inputName}.${scaffoldName}.ts`);
 
     workspace.openTextDocument(fullFilePath).then((textDocument) => {
       if (!textDocument) { return; }
