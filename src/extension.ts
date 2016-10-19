@@ -8,7 +8,20 @@ export function activate(context: ExtensionContext) {
     const addFiles: AddFiles = new AddFiles();
     addFiles.showFileNameDialog(args)
       .then(addFiles.createFolder)
-      .then(addFiles.createFiles)
+      .then(addFiles.createComponentFiles)
+      .then(addFiles.openFileInEditor)
+      .catch((err) => {
+        if (err) {
+          window.showErrorMessage(err);
+        }
+      });
+  });
+
+  var addAngular2Files = commands.registerCommand('extension.addAngular2RenovoService', (args) => {
+    const addFiles: AddFiles = new AddFiles();
+    addFiles.showFileNameDialog(args)
+      .then(addFiles.createFolder)
+      .then(addFiles.createServiceFiles)
       .then(addFiles.openFileInEditor)
       .catch((err) => {
         if (err) {

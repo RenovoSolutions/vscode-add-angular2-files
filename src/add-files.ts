@@ -6,8 +6,12 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as Q from 'q';
 
-export class AddFiles {
+export enum FileScaffoldType{
+  component = 0,
+  service = 1
+}
 
+export class AddFiles {
   // Show input prompt for folder name
   // The imput is also used to create the files with the respective name as defined in the Angular2 style guide [https://angular.io/docs/ts/latest/guide/style-guide.html]
   public showFileNameDialog(args): Q.Promise<string> {
@@ -64,31 +68,55 @@ export class AddFiles {
   }
 
   // Get file contents and create the new files in the folder
-  public createFiles(folderName: string): Q.Promise<string> {
+  public createComponentFiles(folderName: string): Q.Promise<string>{
+    return this.createFiles(folderName, FileScaffoldType.component);
+  }
+
+  public createServiceFiles(folderName: string){
+    return this.createFiles(folderName, FileScaffoldType.service);
+  }
+
+  private createFiles(folderName: string, scaffoldType: FileScaffoldType){
     const deferred: Q.Deferred<string> = Q.defer<string>();
     var inputName: string = path.parse(folderName).name;
     const fc: FileContents = new FileContents();
     const af: AddFiles = new AddFiles();
 
     // create an IFiles array including file names and contents
-    var files: IFiles[] = [
-      {
-        name: path.join(folderName, `index.ts`),
-        content: fc.createBarrel(inputName)
-      },
-      {
-        name: path.join(folderName, `${inputName}.component.ts`),
-        content: fc.componentContent(inputName)
-      },
-      {
-        name: path.join(folderName, `${inputName}.component.html`),
-        content: fc.templateContent(inputName)
-      },
-      {
-        name: path.join(folderName, `${inputName}.component.tests.ts`),
-        content: fc.specContent(inputName)
-      }
-    ];
+    var files: IFiles[] = [];
+
+    if(scaffoldType == FileScaffoldType.component){
+      files = [      
+        {
+          name: path.join(folderName, `index.ts`),
+          content: fc.createBarrel(inputName)
+        },
+        {
+          name: path.join(folderName, `${inputName}.component.ts`),
+          content: fc.componentContent(inputName)
+        },
+        {
+          name: path.join(folderName, `${inputName}.component.html`),
+          content: fc.templateContent(inputName)
+        },
+        {
+          name: path.join(folderName, `${inputName}.component.tests.ts`),
+          content: fc.specComponentContent(inputName)
+        }
+      ];
+    }
+    else{
+      files = [
+        {
+          name: path.join(folderName, `${inputName}.service.ts`),
+          content: fc.serviceContent(inputName)
+        },
+        {
+          name: path.join(folderName, `${inputName}.service.tests.ts`),
+          content: fc.specServiceContent(inputName)
+        }
+      ];
+    }
 
     // write files
     af.writeFiles(files).then((errors) => {

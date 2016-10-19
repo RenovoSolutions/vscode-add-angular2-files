@@ -35,6 +35,24 @@ export class FileContents {
         return componentContent;
     }
 
+    public serviceContent(inputName: string): string {
+        var inputUpperCase: string;
+        inputUpperCase = inputName.charAt(0).toUpperCase() + inputName.slice(1);
+        inputUpperCase = this.camelCase(inputUpperCase);
+
+        var componentContent: string = "import { components} from 'typescript-angular-components';\n" +
+            "\n" +
+            "export var serviceName: string = '"+inputName+"';\n" +
+            "\n" +
+            "export interface I"+inputUpperCase+" {\n" +
+            "}\n" +
+            "\n" +
+            "export class "+inputUpperCase+" implements I"+inputUpperCase+" {\n" +
+            "\n" +
+            "}";
+        return componentContent;
+    }
+
     public templateContent(inputName: string): string {
         var inputUpperCase: string;
         inputUpperCase = inputName.charAt(0).toUpperCase() + inputName.slice(1);
@@ -49,7 +67,7 @@ export class FileContents {
         return cssContent;
     }
 
-    public specContent(inputName: string): string {
+    public specComponentContent(inputName: string): string {
         var inputUpperCase: string;
         inputUpperCase = inputName.charAt(0).toUpperCase() + inputName.slice(1);
         inputUpperCase = this.camelCase(inputUpperCase);
@@ -67,6 +85,31 @@ export class FileContents {
 
             "\tit('should have an instance', () => {\n" +
             "\t\texpect(" + inputName + "Component).to.not.be.null;\n" +
+            "\t});\n" +
+            "});";
+        return specContent;
+    }
+
+    
+
+    public specServiceContent(inputName: string): string {
+        var inputUpperCase: string;
+        inputUpperCase = inputName.charAt(0).toUpperCase() + inputName.slice(1);
+        inputUpperCase = this.camelCase(inputUpperCase);
+
+        var specContent: string = "import { " + inputUpperCase + "Service } from './" + inputName + ".service';\n" +
+            "\n" +
+            "describe('a " + inputName + " service', () => {\n" +
+            "\tlet " + inputName + "Service : " + inputUpperCase + "Service;\n" +
+            "\n" +
+            // "\t// register all needed dependencies\n" +
+            // "\tbeforeEach(() => {\n" +
+            // "\t\t" + inputName + "Component = new " + inputUpperCase + "Component();\n" +
+            // "\t});\n" +
+            // "\n" +
+
+            "\tit('should have an instance', () => {\n" +
+            "\t\texpect(" + inputName + "Service).to.not.be.null;\n" +
             "\t});\n" +
             "});";
         return specContent;

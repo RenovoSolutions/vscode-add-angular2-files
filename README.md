@@ -24,7 +24,7 @@ home/home.component.tests.ts
 
 ## How to install: (you will want to update the version number)
 ```
-code --install-extension vscode-add-angular2-renovo-files-1.0.1.vsix
+code --install-extension vscode-add-angular2-renovo-files-1.0.3.vsix
 ```
 
 ## Work Flow

@@ -46,10 +46,30 @@ suite("Extension Tests:", () => {
                 });
         });
 
-        test('should create the files', (done) => {
+        test('should create the service files', (done) => {
             addFiles.createFolder(testPath).then(
                 (folderName) => {
-                    addFiles.createFiles(testPath)
+                    addFiles.createServiceFiles(testPath)
+                        .then((folderName) => {
+                            assert.strictEqual(folderName, testPath);
+                            assert.strictEqual(fs.existsSync(testPath), true);
+                            fs.readdir(testPath, (err, files) => {
+                                assert.strictEqual(files.length, 3);
+                                checkIfTestFolderExistsAndDelete();
+                                done();
+                            });
+                        });
+                },
+                (err) => {
+                    checkIfTestFolderExistsAndDelete();
+                    console.log(err);
+                });
+        });
+
+        test('should create the compunent files', (done) => {
+            addFiles.createFolder(testPath).then(
+                (folderName) => {
+                    addFiles.createComponentFiles(testPath)
                         .then((folderName) => {
                             assert.strictEqual(folderName, testPath);
                             assert.strictEqual(fs.existsSync(testPath), true);
