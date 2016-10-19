@@ -40,14 +40,10 @@ export class FileContents {
         inputUpperCase = inputName.charAt(0).toUpperCase() + inputName.slice(1);
         inputUpperCase = this.camelCase(inputUpperCase);
 
-        var componentContent: string = "import { components} from 'typescript-angular-components';\n" +
+        var componentContent: string = "import { Injectable } from '@angular/core';\n" +
             "\n" +
-            "export var serviceName: string = '"+inputName+"';\n" +
-            "\n" +
-            "export interface I"+inputUpperCase+" {\n" +
-            "}\n" +
-            "\n" +
-            "export class "+inputUpperCase+" implements I"+inputUpperCase+" {\n" +
+            "@Injectable()\n" +
+            "export class "+inputUpperCase+"Service {\n" +
             "\n" +
             "}";
         return componentContent;
@@ -99,14 +95,14 @@ export class FileContents {
 
         var specContent: string = "import { " + inputUpperCase + "Service } from './" + inputName + ".service';\n" +
             "\n" +
-            "describe('a " + inputName + " service', () => {\n" +
+            "describe('a " + inputUpperCase + " service', () => {\n" +
             "\tlet " + inputName + "Service : " + inputUpperCase + "Service;\n" +
             "\n" +
-            // "\t// register all needed dependencies\n" +
-            // "\tbeforeEach(() => {\n" +
-            // "\t\t" + inputName + "Component = new " + inputUpperCase + "Component();\n" +
-            // "\t});\n" +
-            // "\n" +
+            "\t// register all needed dependencies\n" +
+            "\tbeforeEach(() => {\n" +
+            "\t\t" + inputName + "Service = new " + inputUpperCase + "Service();\n" +
+            "\t});\n" +
+            "\n" +
 
             "\tit('should have an instance', () => {\n" +
             "\t\texpect(" + inputName + "Service).to.not.be.null;\n" +

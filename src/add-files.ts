@@ -68,15 +68,7 @@ export class AddFiles {
   }
 
   // Get file contents and create the new files in the folder
-  public createComponentFiles(folderName: string): Q.Promise<string>{
-    return this.createFiles(folderName, FileScaffoldType.component);
-  }
-
-  public createServiceFiles(folderName: string): Q.Promise<string>{
-    return this.createFiles(folderName, FileScaffoldType.service);
-  }
-
-  private createFiles(folderName: string, scaffoldType: FileScaffoldType){
+  public createFiles(folderName: string, scaffoldType: FileScaffoldType){
     const deferred: Q.Deferred<string> = Q.defer<string>();
     var inputName: string = path.parse(folderName).name;
     const fc: FileContents = new FileContents();

@@ -2,7 +2,7 @@
     "name": "vscode-add-angular2-renovo-files",
     "displayName": "Add Angular2 Renovo Component",
     "description": "Add Angular2 files including ng2 snippets to your Visual Studio Code project",
-    "version": "1.0.5",
+    "version": "1.0.7",
     "icon": "images/icon.png",
     "publisher": "joshdsommer",
     "author": {

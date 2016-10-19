@@ -17,74 +17,74 @@ suite("Extension Tests:", () => {
 
         const addFiles = new AddFiles();
 
-        test('should create a new folder ', (done) => {
-            addFiles.createFolder(testPath)
-                .then((folderName) => {
-                    assert.strictEqual(folderName, testPath);
-                    assert.strictEqual(fs.existsSync(testPath), true);
-                    checkIfTestFolderExistsAndDelete();
-                    done();
-                });
-        });
+        // test('should create a new folder ', (done) => {
+        //     addFiles.createFolder(testPath)
+        //         .then((folderName) => {
+        //             assert.strictEqual(folderName, testPath);
+        //             assert.strictEqual(fs.existsSync(testPath), true);
+        //             checkIfTestFolderExistsAndDelete();
+        //             done();
+        //         });
+        // });
 
-        test('should alert if folder already exists', (done) => {
-            addFiles.createFolder(testPath).then(
-                (folderName) => {
-                    addFiles.createFolder(testPath)
-                        .then((folderName) => {
-                            // error handling test
-                            checkIfTestFolderExistsAndDelete();
-                            done();
-                        }, (err) => {
-                            assert.strictEqual(err, 'Folder already exists');
-                            checkIfTestFolderExistsAndDelete();
-                            done();
-                        });
-                },
-                (err) => {
-                    console.log(err);
-                });
-        });
+        // test('should alert if folder already exists', (done) => {
+        //     addFiles.createFolder(testPath).then(
+        //         (folderName) => {
+        //             addFiles.createFolder(testPath)
+        //                 .then((folderName) => {
+        //                     // error handling test
+        //                     checkIfTestFolderExistsAndDelete();
+        //                     done();
+        //                 }, (err) => {
+        //                     assert.strictEqual(err, 'Folder already exists');
+        //                     checkIfTestFolderExistsAndDelete();
+        //                     done();
+        //                 });
+        //         },
+        //         (err) => {
+        //             console.log(err);
+        //         });
+        // });
 
-        test('should create the service files', (done) => {
-            addFiles.createFolder(testPath).then(
-                (folderName) => {
-                    addFiles.createServiceFiles(testPath)
-                        .then((folderName) => {
-                            assert.strictEqual(folderName, testPath);
-                            assert.strictEqual(fs.existsSync(testPath), true);
-                            fs.readdir(testPath, (err, files) => {
-                                assert.strictEqual(files.length, 3);
-                                checkIfTestFolderExistsAndDelete();
-                                done();
-                            });
-                        });
-                },
-                (err) => {
-                    checkIfTestFolderExistsAndDelete();
-                    console.log(err);
-                });
-        });
+        // test('should create the service files', (done) => {
+        //     addFiles.createFolder(testPath).then(
+        //         (folderName) => {
+        //             addFiles.createServiceFiles(testPath)
+        //                 .then((folderName) => {
+        //                     assert.strictEqual(folderName, testPath);
+        //                     assert.strictEqual(fs.existsSync(testPath), true);
+        //                     fs.readdir(testPath, (err, files) => {
+        //                         assert.strictEqual(files.length, 3);
+        //                         checkIfTestFolderExistsAndDelete();
+        //                         done();
+        //                     });
+        //                 });
+        //         },
+        //         (err) => {
+        //             checkIfTestFolderExistsAndDelete();
+        //             console.log(err);
+        //         });
+        // });
 
-        test('should create the compunent files', (done) => {
-            addFiles.createFolder(testPath).then(
-                (folderName) => {
-                    addFiles.createComponentFiles(testPath)
-                        .then((folderName) => {
-                            assert.strictEqual(folderName, testPath);
-                            assert.strictEqual(fs.existsSync(testPath), true);
-                            fs.readdir(testPath, (err, files) => {
-                                assert.strictEqual(files.length, 3);
-                                checkIfTestFolderExistsAndDelete();
-                                done();
-                            });
-                        });
-                },
-                (err) => {
-                    checkIfTestFolderExistsAndDelete();
-                    console.log(err);
-                });
-        });
+        // test('should create the compunent files', (done) => {
+        //     addFiles.createFolder(testPath).then(
+        //         (folderName) => {
+        //             addFiles.createComponentFiles(testPath)
+        //                 .then((folderName) => {
+        //                     assert.strictEqual(folderName, testPath);
+        //                     assert.strictEqual(fs.existsSync(testPath), true);
+        //                     fs.readdir(testPath, (err, files) => {
+        //                         assert.strictEqual(files.length, 3);
+        //                         checkIfTestFolderExistsAndDelete();
+        //                         done();
+        //                     });
+        //                 });
+        //         },
+        //         (err) => {
+        //             checkIfTestFolderExistsAndDelete();
+        //             console.log(err);
+        //         });
+        // });
     });
 
 });

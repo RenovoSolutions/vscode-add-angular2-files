@@ -1,5 +1,5 @@
 import { ExtensionContext, commands, window } from 'vscode';
-import { AddFiles } from './add-files';
+import { AddFiles, FileScaffoldType } from './add-files';
 
 export function activate(context: ExtensionContext) {
   console.log('Congratulations, your extension is now active!');
@@ -8,8 +8,8 @@ export function activate(context: ExtensionContext) {
     const addFiles: AddFiles = new AddFiles();
     addFiles.showFileNameDialog(args)
       .then(addFiles.createFolder)
-      .then(addFiles.createComponentFiles)
-      .then(addFiles.openComponentFileInEditor)
+      .then(folderName =>addFiles.createFiles(folderName,FileScaffoldType.component))
+      .then(foldername =>addFiles.openComponentFileInEditor(foldername))
       .catch((err) => {
         if (err) {
           window.showErrorMessage(err);
@@ -21,7 +21,7 @@ export function activate(context: ExtensionContext) {
     const addFiles: AddFiles = new AddFiles();
     addFiles.showFileNameDialog(args)
       .then(addFiles.createFolder)
-      .then(addFiles.createServiceFiles)
+      .then(folderName =>addFiles.createFiles(folderName,FileScaffoldType.service))
       .then(addFiles.openServiceFileInEditor)
       .catch((err) => {
         if (err) {
