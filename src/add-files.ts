@@ -6,8 +6,12 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as Q from 'q';
 
-export class AddFiles {
+export enum FileScaffoldType{
+  component = 0,
+  service = 1
+}
 
+export class AddFiles {
   // Show input prompt for folder name
   // The imput is also used to create the files with the respective name as defined in the Angular2 style guide [https://angular.io/docs/ts/latest/guide/style-guide.html]
   public showFileNameDialog(args): Q.Promise<string> {
@@ -64,31 +68,47 @@ export class AddFiles {
   }
 
   // Get file contents and create the new files in the folder
-  public createFiles(folderName: string): Q.Promise<string> {
+  public createFiles(folderName: string, scaffoldType: FileScaffoldType){
     const deferred: Q.Deferred<string> = Q.defer<string>();
     var inputName: string = path.parse(folderName).name;
     const fc: FileContents = new FileContents();
     const af: AddFiles = new AddFiles();
 
     // create an IFiles array including file names and contents
-    var files: IFiles[] = [
-      {
-        name: path.join(folderName, `index.ts`),
-        content: fc.createBarrel(inputName)
-      },
-      {
-        name: path.join(folderName, `${inputName}.component.ts`),
-        content: fc.componentContent(inputName)
-      },
-      {
-        name: path.join(folderName, `${inputName}.component.html`),
-        content: fc.templateContent(inputName)
-      },
-      {
-        name: path.join(folderName, `${inputName}.component.tests.ts`),
-        content: fc.specContent(inputName)
-      }
-    ];
+    var files: IFiles[] = [];
+
+    if(scaffoldType == FileScaffoldType.component){
+      files = [      
+        {
+          name: path.join(folderName, `index.ts`),
+          content: fc.createBarrel(inputName)
+        },
+        {
+          name: path.join(folderName, `${inputName}.component.ts`),
+          content: fc.componentContent(inputName)
+        },
+        {
+          name: path.join(folderName, `${inputName}.component.html`),
+          content: fc.templateContent(inputName)
+        },
+        {
+          name: path.join(folderName, `${inputName}.component.tests.ts`),
+          content: fc.specComponentContent(inputName)
+        }
+      ];
+    }
+    else{
+      files = [
+        {
+          name: path.join(folderName, `${inputName}.service.ts`),
+          content: fc.serviceContent(inputName)
+        },
+        {
+          name: path.join(folderName, `${inputName}.service.tests.ts`),
+          content: fc.specServiceContent(inputName)
+        }
+      ];
+    }
 
     // write files
     af.writeFiles(files).then((errors) => {
@@ -115,11 +135,24 @@ export class AddFiles {
     return deferred.promise;
   }
 
-  // Open the created component in the editor
-  public openFileInEditor(folderName): Q.Promise<TextEditor> {
+  // Open the created component in the 
+    public openComponentFileInEditor(folderName: string): Q.Promise<TextEditor>{
+    return this.openFileInEditor(folderName, FileScaffoldType.component);
+  }
+
+  public openServiceFileInEditor(folderName: string): Q.Promise<TextEditor>{
+    return this.openFileInEditor(folderName, FileScaffoldType.service);
+  }
+
+  private openFileInEditor(folderName:string, fileScaffoldType: FileScaffoldType): Q.Promise<TextEditor> {
     const deferred: Q.Deferred<TextEditor> = Q.defer<TextEditor>();
-    var inputName: string = path.parse(folderName).name;;
-    var fullFilePath: string = path.join(folderName, `${inputName}.component.ts`);
+    var inputName: string = path.parse(folderName).name;
+    var scaffoldName = "component";
+
+    if(fileScaffoldType == FileScaffoldType.service)
+      scaffoldName = "service";
+
+    var fullFilePath: string = path.join(folderName, `${inputName}.${scaffoldName}.ts`);
 
     workspace.openTextDocument(fullFilePath).then((textDocument) => {
       if (!textDocument) { return; }
